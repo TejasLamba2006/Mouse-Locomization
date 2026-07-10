@@ -39,7 +39,7 @@ state = {
     "y":         0.0,
     "yaw":       0.0,
     "distance":  0.0,
-    "recording": False,
+    "recording": True,
     "path":      [[0.0, 0.0]],
 }
 
@@ -189,7 +189,7 @@ def _evdev_thread(device_path: str):
                     pending_dy += ev_value
             elif ev_type == EV_KEY:
 
-                if 0:  # ev_code == BTN_LEFT:
+                if ev_code == BTN_LEFT:
 
                     now = time.time()
 
@@ -210,23 +210,10 @@ def _evdev_thread(device_path: str):
                                 state["x"] = 0.0
                                 state["y"] = 0.0
                                 state["distance"] = 0.0
-                                state["recording"] = False
                                 state["path"] = [[0.0, 0.0]]
 
                             print("[Mouse] MAP RESET")
                             continue
-
-                        with lock:
-                            state["recording"] = True
-
-                        print("[Mouse] RECORDING STARTED")
-
-                    elif ev_value == 0:
-
-                        with lock:
-                            state["recording"] = False
-
-                        print("[Mouse] RECORDING STOPPED")
             elif ev_type == EV_SYN:
                 # SYN_REPORT (code 0) marks end of one logical event frame
                 if (pending_dx != 0 or pending_dy != 0):

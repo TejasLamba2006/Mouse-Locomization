@@ -189,7 +189,7 @@ def _evdev_thread(device_path: str):
                     pending_dy += ev_value
             elif ev_type == EV_KEY:
 
-                if ev_code == BTN_LEFT:
+                if 0:  # ev_code == BTN_LEFT:
 
                     now = time.time()
 
